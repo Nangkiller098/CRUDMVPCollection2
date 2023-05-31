@@ -1,8 +1,8 @@
 package controllers;
 
 import models.Category;
-import services.CategoryService;
-import services.CategoryServiceImpl;
+import services.Category.CategoryService;
+import services.Category.CategoryServiceImpl;
 
 import java.util.List;
 import java.util.Scanner;
@@ -19,7 +19,7 @@ public class CategoryController {
             switch (input) {
                 case 1 -> {
                     System.out.println("=======List Categories========================");
-                    List<Category> categoryList = categoryService.getAllCategoryStatusActive();
+                    List<Category> categoryList = categoryService.GetAllData();
                     for (Category ss : categoryList) {
                         System.out.println("-------------------------");
                         System.out.println("Category ID : " + ss.getId());

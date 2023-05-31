@@ -1,23 +1,17 @@
-package repositories;
+package repositories.Category;
 
-import db.DbConnection;
 import models.Category;
+import repositories.Base.BaseRepositoryImpl;
 
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CategoryRepositoryImpl implements CategoryRepository {
-    private final DbConnection dbConnection = new DbConnection();
-    private Statement statement = null;
-    private ResultSet resultSet = null;
-    private PreparedStatement preparedStatement =null;
+public class CategoryRepositoryImpl extends BaseRepositoryImpl implements CategoryRepository {
+
 
     @Override
-    public List<Category> findAllCategory() {
+    public List<Category> FindAllData() {
         List<Category> categoryList = new ArrayList<>();
         String sql = "select * from categories where status  = 'ACT'";
         try {
@@ -38,8 +32,7 @@ public class CategoryRepositoryImpl implements CategoryRepository {
     }
 
     @Override
-    public void insert(Category category)
-    {
+    public void insert(Category category) {
         String sql="INSERT INTO categories(name, name_kh, status) VALUES(?,?,?)";
         category.setStatus("ACT");
         try
@@ -48,20 +41,19 @@ public class CategoryRepositoryImpl implements CategoryRepository {
             preparedStatement.setString(1,category.getName());
             preparedStatement.setString(2,category.getNameKh());
             preparedStatement.setString(3,category.getStatus());
-        int result  =preparedStatement.executeUpdate();
-        if (result>0)
-        {
-            System.out.println("Insert category success:");
-        }
-        dbConnection.conn().close();
+            int result  =preparedStatement.executeUpdate();
+            if (result>0)
+            {
+                System.out.println("Insert category success:");
+            }
+            dbConnection.conn().close();
         } catch (Throwable e) {
             System.out.println("Error get all category "+e.getMessage());
         }
     }
 
     @Override
-    public Category findById(Integer id)
-    {
+    public Category findById(Integer id) {
         Category category = new Category();
         String sql = "select * from categories where status='ACT' and id="+id;
         try {
@@ -80,7 +72,7 @@ public class CategoryRepositoryImpl implements CategoryRepository {
     }
 
     @Override
-    public void update(Category category,Integer id)
+    public void update(Category category, Integer id)
     {
         String sql = "UPDATE categories SET name=?, name_kh=?, status=? WHERE id="+id;
         category.setStatus("ACT");
